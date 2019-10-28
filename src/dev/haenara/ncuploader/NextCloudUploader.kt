@@ -148,7 +148,7 @@ class NextCloudUploader(driverPath: String?, timeout: String?) {
         try {
             driver = ChromeDriver(ChromeOptions().apply{
                 setCapability("ignoreProtectedModeSettings", true)
-//                addArguments("headless")
+                addArguments("headless")
             })
             // load url
             driver.get(url)
