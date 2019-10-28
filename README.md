@@ -30,12 +30,12 @@ If your team uses NextCloud, you may use as gradle task to distribute your appli
 task devAppUpload(type: JavaExec, group: "__upload__") {
   main = "NextCloudUploaderKt"
   classpath = files("$rootDir/nx_uploader/NextCloudUploader.jar")
-  args('-id', 'admin'
-      '-pwd', 'admin123!'
-      '-cloudUrl', 'nxt.ubpay.com/index.php/apps/files?dir='
-      '-uploadPath', '/Android/ubpay/dev'
+  args('-id', 'admin',
+      '-pwd', 'admin123!',
+      '-cloudUrl', 'nxt.ubpay.com/index.php/apps/files?dir=',
+      '-uploadPath', '/Android/ubpay/dev',
       '-filePath', "$projectDir/build/outputs/apk/" + getApkName(),
-      '-driverPath', "$rootDir/nx_uploader"
+      '-driverPath', "$rootDir/nx_uploader",
       '-timeout', '15'
   )
   doLast {
