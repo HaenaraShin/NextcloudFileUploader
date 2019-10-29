@@ -84,7 +84,7 @@ fun help(){
             "$USER_PWD {User Password} \n" +
             "$CLOUD_URL {NextCloud url} \n" +
             "$UPLOAD_PATH {Destination url} \n" +
-            "$FILE_PATH {Local file path to upload} \n" +
+            "$FILE_PATH [{Local files path to upload}] \n" +
             "$DRIVER_PATH {ChromeDriver path} optional, default : current directory\n" +
             "$TIMEOUT {Timeout sec} optional, default : 15s\n\n" +
             "Example : \n" +
@@ -92,7 +92,7 @@ fun help(){
             "$USER_PWD admin123! \n" +
             "$CLOUD_URL https://nextcloud.ubpay.com/index.php/apps/files?dir=\n" +
             "$UPLOAD_PATH /Android/001_ubpay_native/ubpay/003_dev \n" +
-            "$FILE_PATH /Users/haenara/apk/ubpay_dev_123123.apk \n" +
+            "$FILE_PATH [/Users/apk/123123.apk,/Users/apk/456456.apk] \n" +
             "$DRIVER_PATH /Users/haenara\n" +
             "$TIMEOUT 15\n\n" +
             "developed by Haenara Shin.\n" +
@@ -155,7 +155,10 @@ class NextCloudUploader(driverPath: String?, timeout: String?) {
             // login
             driver.login(userId, userPwd)
             // upload a file
-            driver.uploadProcess(filePath)
+            filePath.substringAfter("[").substringBefore("]")
+                .split(",").forEach{ file ->
+                driver.uploadProcess(file.trim())
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -166,7 +169,7 @@ class NextCloudUploader(driverPath: String?, timeout: String?) {
     /**
      * Login
      */
-    fun WebDriver.login(id: String, pwd: String) {
+    private fun WebDriver.login(id: String, pwd: String) {
         try {
             findElement(By.id("user")).sendKeys(id)
             findElement(By.id("password")).sendKeys(pwd)
@@ -184,7 +187,7 @@ class NextCloudUploader(driverPath: String?, timeout: String?) {
     /**
      * File upload
      */
-    fun WebDriver.uploadProcess(filePath: String) {
+    private fun WebDriver.uploadProcess(filePath: String) {
         val fileName = getFileName(filePath)
         try {
             println("Upload File name : $fileName")
@@ -206,7 +209,7 @@ class NextCloudUploader(driverPath: String?, timeout: String?) {
     /**
      * Retrieve the file name from the file path.
      */
-    fun getFileName(filePath: String): String{
+    private fun getFileName(filePath: String): String{
         return filePath
             .split("/").last()
             .split("\\").last(). let { fileName ->
