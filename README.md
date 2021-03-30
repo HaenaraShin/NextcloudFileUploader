@@ -1,6 +1,8 @@
 Nextcloud File Uploader  
 =============================
 
+<img src="https://img.shields.io/github/v/release/HaenaraShin/NextcloudFileUploader">
+
 **Kotlin program to upload files to [NextCloud](https://github.com/nextcloud) on cli.**
 
 ## Purpose
